@@ -23,17 +23,18 @@ app.get('/api/daraz', async (req, res) => {
 
   const stringToEncrypt = timestamp + '+' + config.adstreamToken;
 
-  var encMsg = crypto.publicEncrypt(secretKey, Buffer.from(stringToEncrypt));
+  const encMsg = crypto.publicEncrypt(secretKey, Buffer.from(stringToEncrypt));
 
-  var token = encMsg.toString('base64');
+  const token = encMsg.toString('base64');
 
   const url = config.darazAdstreamBaseUri + 'marketing/download_feeds?token='+token;
 
   const response = await axios.get(url);
 
-  console.log(response)
+  console.log(response);
 
   const name = req.query.name || 'World';
+  
   res.setHeader('Content-Type', 'application/json');
 
   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
