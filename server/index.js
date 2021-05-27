@@ -23,9 +23,11 @@ app.get('/api/daraz', async (req, res) => {
 
   const stringToEncrypt = timestamp + '+' + config.adstreamToken;
 
-  const encMsg = crypto.publicEncrypt(secretKey, Buffer.from(stringToEncrypt));
+  const encMsg = crypto.publicEncrypt({key: secretKey, padding: crypto.constants.RSA_PKCS1_PADDING}, Buffer.from(stringToEncrypt));
 
   const token = encMsg.toString('base64');
+
+  console.log(token)
 
   const url = config.darazAdstreamBaseUri + 'marketing/download_feeds?token='+token;
 
